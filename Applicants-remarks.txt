@@ -1,0 +1,28 @@
+# This file is intended for remarks of the applicant:
+# Name of applicant: Benjamin Mwasambo
+
+#1. Data cleaning
+#Checked if data has missing values and duplicates. No missing values and duplicates were found.
+#Changed the spatial objects to sf class using sf package. I prefer manipulating datasets with sf
+#Reprojected the layers from Longlat to utm using st_transform(), proj4string . i.e crs = "+proj=utm +zone=37 +ellps=WGS84 +datum=WGS84 +units=m +no_defs"
+#Checked for correlation between pH and OM
+#Quick visuals to see if the 2 layers overlay. 
+#Data manipulation: I created to data sets from the original op spatialpointdataframe object dropping either pH or OM columns
+
+#2.Spatial interpolation
+#The first thing i did is to fit a simple linear regression model,lm() and viewed the summaries of the variables to show their statistical significance.
+#For this excersise, I opted to use variogram modeling and kriging interploation
+#The 2 data sets were used to plot a spatial trend variogram and fit a variogram model.This was based on the spatial correlation of the point features of the soil properties. 
+#Variogram plots were first create and model parameters retrieved 
+
+#3.Kriging
+#Interpolation of point values from the fitted variogram model was conducted using Kriging. (both manual and automatic (automap package) were attemped)
+#Interpolation was done on:
+1.Vector file
+2.Grided surface--- created a pixel grided surface, regular type, from the spatial polygonDF
+
+#Challange of Interpolation.
+#I encountered an error while conducting the interpolation both on vector and grided surface. The predicted variables were recorded as NULL. I changed the output of prediction to dataframe  and saved it in the output folder for your perusal. I suspect it's something to do with the projection. (I will look into this).  I could not create a map since the varibles were blank. 
+#However, the fitting of the variograms was successfully conducted. 
+
+
