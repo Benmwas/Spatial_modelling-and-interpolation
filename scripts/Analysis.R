@@ -48,8 +48,7 @@ table(is.na(data_sf$pH))
 tm_shape(data2_sf)+
   tm_polygons(alpha = 0.5)+
   tm_shape(data_sf)+
-  tm_dots(col = "red", size = 0.2)+
-  tm_fill(title = "Distribution of points on a ploygon")
+  tm_dots(col = "red", size = 0.2)
 
 #Create a dataset for pH and OM variables
 data_pH <- select(data_sf, -OM)
@@ -78,7 +77,8 @@ lm <- lm(pH ~ coords.x1 + coords.x2, as.data.frame(data_pH_sp))
 summary(lm)  #all variablles are statistically significant
 
 lm2 <- lm(OM ~coords.x1 + coords.x2, as.data.frame(data_Om_sp))
-summary(lm2)
+summary(lm2) 
+
 
 ##SPATIAL INTRPOLATION 
 #Fit a VARIOGRAM model 
@@ -156,6 +156,9 @@ plot(grd_pixels)
 pH_pred_grid <- krige(pH ~ 1, data_pH_sp , newdata = grd_pixels, model = v_model_pH)
 names(pH_pred_grid)
 
+#Auto kriging
+predict_auto_pH <- autoKrige(pH ~ 1, input_data = data_pH_sp, new_data = pH_pred_grid )
+
 #Create a map of the Interpoled points
 spplot(pH_pred_grid, zcol = "var1.pred")
 
@@ -167,6 +170,20 @@ spplot(pH_pred_grid, "var1.pred", do.log = TRUE,
 Predicted_xlsx <- as.data.frame(pH_pred_grid)
 write.xlsx(Predicted_xlsx, "Predicted_pH_values.xlsx")
 
+
+
+#Save the Spatial polygonDF (sf) as shapefile
+
+st_write(data2_sf, "gadm.shp", driver="ESRI Shapefile")  
+
+#Import the shapefile
+
+gadm_shp <- st_read("outputData/gadm.shp")
+
+#Interpolate on the polygon (.shp), both manual and auto krige
+pH_pred <- krige(pH ~ 1, data_pH_sp , newdata = gadm_shp, model = v_model_pH)
+
+predict_auto_pH <- autoKrige(pH ~ 1, input_data = data_pH_sp, new_data = gadm_sp )
 
 
 
