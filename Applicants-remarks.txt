@@ -1,5 +1,5 @@
 # This file is intended for remarks of the applicant:
-# Name of applicant: Benjamin Mwasambo
+# Name of applicant:
 
 #1. Data cleaning
 #Checked if data has missing values and duplicates. No missing values and duplicates were found.
@@ -25,4 +25,8 @@
 #I encountered an error while conducting the interpolation both on vector and grided surface. The predicted variables were recorded as NULL. I changed the output of prediction to dataframe  and saved it in the output folder for your perusal. I suspect it's something to do with the projection. (I will look into this).  I could not create a map since the varibles were blank. 
 #However, the fitting of the variograms was successfully conducted. 
 
+#4.Spatial data storage
 
+#The spatial pointDF was store in a geodb(postGIS) from R using rpostgis package. The db name is spatial_projects. 
+#db file is po_data
+#Stored under schemas>>public>>tables. The po_data has 4 columns: Id_1, pH,OM and geom. Id_1 is an additional id argurment to retrieve back to R as a spatial pointDF.
